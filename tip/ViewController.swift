@@ -10,7 +10,9 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    var currencySymbol:String = ""
+    let locale = Locale.current
+    var tip = 0.00, total = 0.00
+    var formatter = NumberFormatter()
     
     @IBOutlet weak var billField: UITextField!
     
@@ -23,9 +25,10 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        currencySymbol = Locale.current.currencySymbol ?? ""
-        tipLabel.text="\(currencySymbol)0.00"
-        totalLabel.text="\(currencySymbol)0.00"
+        formatter.locale = locale
+        formatter.numberStyle = .currency
+        tipLabel.text = formatter.string(from: tip as NSNumber)
+        totalLabel.text = formatter.string(from: total as NSNumber)
     }
 
     @IBAction func onTap(_ sender: Any) {
@@ -38,11 +41,11 @@ class ViewController: UIViewController {
         
         //Calculate the tip and total
         let tipPercentages = [0.15, 0.18, 0.2]
-        let tip = bill * tipPercentages[tipControl.selectedSegmentIndex]
-        let total = bill + tip
+        tip = bill * tipPercentages[tipControl.selectedSegmentIndex]
+        total = bill + tip
         
         //Update the tip and total labels
-        tipLabel.text = "\(currencySymbol)\(tip)"
-        totalLabel.text = "\(currencySymbol)\(total)"
+        tipLabel.text = formatter.string(from: tip as NSNumber)
+        totalLabel.text = formatter.string(from: total as NSNumber)
     }
 }
