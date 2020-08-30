@@ -10,6 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    var currencySymbol:String = ""
     
     @IBOutlet weak var billField: UITextField!
     
@@ -22,6 +23,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        currencySymbol = Locale.current.currencySymbol ?? ""
+        tipLabel.text="\(currencySymbol)0.00"
+        totalLabel.text="\(currencySymbol)0.00"
     }
 
     @IBAction func onTap(_ sender: Any) {
@@ -38,8 +42,7 @@ class ViewController: UIViewController {
         let total = bill + tip
         
         //Update the tip and total labels
-//        tipLabel.text = "$\(tip)"
-        tipLabel.text = String(format: "$%.2f", tip)
-        totalLabel.text = String(format: "$%.2f", total)
+        tipLabel.text = "\(currencySymbol)\(tip)"
+        totalLabel.text = "\(currencySymbol)\(total)"
     }
 }
